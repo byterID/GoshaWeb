@@ -7,7 +7,6 @@ public class Enemy : MonoBehaviour
 {
     public GameObject Player;
     public Transform target;
-    private float speed = 10;
 
     void Start()
     {
