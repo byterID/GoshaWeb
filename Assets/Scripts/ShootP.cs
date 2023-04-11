@@ -21,4 +21,11 @@ public class ShootP : MonoBehaviour
         yield return new WaitForSeconds(timeToDestroy);
         Destroy(gameObject);
     }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Enemy")
+        {
+            Destroy(collision.gameObject);
+        }
+    }
 }
