@@ -5,10 +5,10 @@ using UnityEngine;
 public class ShootP : MonoBehaviour
 {
     public float speed = 5;
-    private int timeToDestroy = 5;
+    private int timeToDestroy = 4;
     void Start()
     {
-
+        
     }
 
     void Update()
@@ -26,6 +26,8 @@ public class ShootP : MonoBehaviour
         if(collision.gameObject.tag == "Enemy")
         {
             Destroy(collision.gameObject);
+            Destroy(gameObject);
         }
     }
+
 }

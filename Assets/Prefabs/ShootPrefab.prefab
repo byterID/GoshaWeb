@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1792169896780770529}
   - component: {fileID: 81694891443955909}
   - component: {fileID: 777080344227533300}
+  - component: {fileID: -3656869700499912552}
   m_Layer: 0
   m_Name: ShootPrefab
   m_TagString: Untagged
@@ -98,3 +99,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+--- !u!58 &-3656869700499912552
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2379975744346965254}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

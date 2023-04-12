@@ -1,26 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Enemy : MonoBehaviour
 {
     public GameObject Player;
-    public Transform target;
-
+    public Transform player;
+    public float movespeed = 5f;
+    private Rigidbody2D rb;
+    private Vector2 movement;
     void Start()
     {
         Player = GameObject.Find("Player");
-        target = Player.GetComponent<Transform>();
+        player = Player.GetComponent<Transform>();
+        rb = this.GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        MoveTo();
+        Vector3 direction = player.position - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        rb.rotation = angle;
+        direction.Normalize();
+        movement = direction;
     }
-    public void MoveTo()
+    private void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, 5f * Time.deltaTime);
-        
+        moveCharacter(movement);
+    }
+    public void moveCharacter(Vector2 direction)
+    {
+        rb.MovePosition((Vector2)transform.position + (direction * movespeed * Time.deltaTime));
     }
 }
