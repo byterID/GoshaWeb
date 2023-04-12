@@ -13,22 +13,39 @@ public class Player : MonoBehaviour
     private float speed = 10;
     RaycastHit2D hit;
     private bool canShoot = true;
+    public bool isMove;
 
+    Animator anim;
 
     void Start()
     {
         GameControl = GameObject.Find("GameControl");
         gameControl = GameControl.GetComponent<GameControl>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!isMove)
+        {
+            anim.Play("Idle");
+        }
         Move();
         MouseMove();
         ShootB();
     }
-
+    public void CheckMove()
+    {
+        if(Input.GetAxis("Vertical")>0 || Input.GetAxis("Horizontal")>0)
+        {
+            isMove = true;
+        }
+        else
+        {
+            isMove = false;
+        }
+    }
     public void Move()
     {
         float translationY = Input.GetAxis("Vertical") * speed;
@@ -38,6 +55,10 @@ public class Player : MonoBehaviour
         translationX *= Time.deltaTime;
 
         transform.localPosition += new Vector3(translationX, translationY, 0);
+        if(isMove)
+        {
+            anim.Play("Walk");
+        }
     }
     public void MouseMove()
     {
@@ -45,7 +66,7 @@ public class Player : MonoBehaviour
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, speed * Time.deltaTime);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, speed * Time.deltaTime);
 
         hit = Physics2D.Raycast(transform.position + new Vector3(1,0,0), Vector2.right);
     }
