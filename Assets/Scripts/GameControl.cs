@@ -37,13 +37,6 @@ public class GameControl : MonoBehaviour
             currentTime = 0;
             RandomSpawn = Random.Range(5, 10);
         }
-        /*for (int i = 0; i < hearts.Length; i++)//если я получил урон 1 раз, значит должно убраться самое правое сердце, и так справа налево
-        {
-            if (Player.GetHP() > i)
-                hearts[i].sprite = isLife;
-            else
-                hearts[i].sprite = nonLife;//заменяю сердце, в случае урона на пустое
-        }*/
 
     }
     public void SpawnEnemy()

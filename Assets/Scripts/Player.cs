@@ -119,4 +119,26 @@ public class Player : MonoBehaviour
 
         hit = Physics2D.Raycast(transform.position + new Vector3(1,0,0), Vector2.right);
     }
+
+    public void Skill1()
+    {
+        if(Input.GetButton("Z"))
+        {
+            //sdasd
+        }
+    }
+    public void Skill2()
+    {
+        if (Input.GetButton("X"))
+        {
+            //sdasd
+        }
+    }
+    public void Skill3()
+    {
+        if (Input.GetButton("C"))
+        {
+            //sdasd
+        }
+    }
 }
