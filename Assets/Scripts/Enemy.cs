@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    Player playerScript;
     public GameObject Player;
     public Transform player;
     public float movespeed = 5f;
@@ -13,6 +14,7 @@ public class Enemy : MonoBehaviour
     {
         Player = GameObject.Find("Player");
         player = Player.GetComponent<Transform>();
+        playerScript = Player.GetComponent<Player>();
         rb = this.GetComponent<Rigidbody2D>();
     }
 
@@ -23,6 +25,7 @@ public class Enemy : MonoBehaviour
         rb.rotation = angle;
         direction.Normalize();
         movement = direction;
+        Flip();
     }
     private void FixedUpdate()
     {
@@ -32,11 +35,18 @@ public class Enemy : MonoBehaviour
     {
         rb.MovePosition((Vector2)transform.position + (direction * movespeed * Time.deltaTime));
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    void Flip()//--------
     {
-        if (collision.gameObject.tag == "Player")
+        if (transform.rotation.z <= 90 || transform.rotation.z >= -90)
+            transform.Rotate(0, 0, 0);
+        if (transform.rotation.z <= -90 || transform.rotation.z >= 90)
+            transform.Rotate(0, 180, 0);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<Player>().RecountHp(-1);
+            playerScript.curHp -= 10;
             Destroy(gameObject);
         }
     }

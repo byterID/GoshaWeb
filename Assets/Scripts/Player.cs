@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -9,9 +10,11 @@ public class Player : MonoBehaviour
     GameControl gameControl;
     public GameObject player;
     private float speed = 5;
-    int maxHp = 3;
-    public int curHp;
-    bool isHit = false;
+    float maxHp = 100;
+    public float curHp;
+    public Image bar;
+    public float fillHp;
+    public bool isHit = false;
 
     RaycastHit2D hit;
 
@@ -30,12 +33,26 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        fillHp = curHp / 100;
+        bar.fillAmount = fillHp;
         CheckMove();
         Move();
         MouseMove();
         Flip();
     }
-    public void RecountHp(int deltaHp)
+    public void RecountHp()
+    {
+        if (curHp > maxHp)
+        {
+            curHp = maxHp;
+        }
+        if (curHp <= 0)
+        {
+            Debug.Log("Помер");
+        }
+
+    }
+    /*public void RecountHp(int deltaHp)
     {
         curHp = curHp + deltaHp;
         if (deltaHp < 0)
@@ -48,29 +65,14 @@ public class Player : MonoBehaviour
         else if (curHp > maxHp)
         {
             curHp = curHp + deltaHp;
-            curHp = maxHp;//если игрок подберет +1жизнь, а у него их уже 3, то хп останется на том же уровне
+            curHp = maxHp;
         }
         if (curHp <= 0)
         {
             Debug.Log("Помер");
         }
-    }
-    IEnumerator OnHit()
-    {
-        if (isHit)
-            GetComponent<SpriteRenderer>().color = new Color(1f, GetComponent<SpriteRenderer>().color.g - 0.04f, GetComponent<SpriteRenderer>().color.b - 0.04f);
-        else
-            GetComponent<SpriteRenderer>().color = new Color(1f, GetComponent<SpriteRenderer>().color.g + 0.04f, GetComponent<SpriteRenderer>().color.b + 0.04f);
-        if (GetComponent<SpriteRenderer>().color.g == 1f)
-        {
-            StopCoroutine(OnHit());
-        }
-        if (GetComponent<SpriteRenderer>().color.g <= 0)
+    }*/
 
-            isHit = false;
-        yield return new WaitForSeconds(0.02f);
-        StartCoroutine(OnHit());
-    }
     void Flip()
     {
         if (Input.GetAxis("Horizontal") > 0)
