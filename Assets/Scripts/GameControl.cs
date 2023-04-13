@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +14,8 @@ public class GameControl : MonoBehaviour
     [SerializeField] private float currentTime;
     private int RandomSpawnCordX;
     private int RandomSpawnCordY;
-
-    public int Lives = 3;
+    public Image[] hearts;
+    public Sprite isLife, nonLife;
 
     //Bools
     public bool isGame;
@@ -36,6 +37,14 @@ public class GameControl : MonoBehaviour
             currentTime = 0;
             RandomSpawn = Random.Range(5, 10);
         }
+        /*for (int i = 0; i < hearts.Length; i++)//если я получил урон 1 раз, значит должно убраться самое правое сердце, и так справа налево
+        {
+            if (Player.GetHP() > i)
+                hearts[i].sprite = isLife;
+            else
+                hearts[i].sprite = nonLife;//заменяю сердце, в случае урона на пустое
+        }*/
+
     }
     public void SpawnEnemy()
     {
@@ -47,22 +56,12 @@ public class GameControl : MonoBehaviour
         RandomSpawnCordY = Random.Range(-15, 15);
         yield return new WaitForSeconds(3);
     }
-    public void Damage()
-    {
-        Lives--;
-    }
+
     private void TimerCount()
     {
         if(isGame)
         {
             Timer += Time.deltaTime;
-        }
-    }
-    public void EndGame()
-    {
-        if(Lives <=0)
-        {
-            isGame = false;
         }
     }
 }

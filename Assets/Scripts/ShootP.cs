@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShootP : MonoBehaviour
 {
-    public float speed = 5;
+    public float speed = 40;
     private int timeToDestroy = 4;
     void Start()
     {

@@ -32,4 +32,12 @@ public class Enemy : MonoBehaviour
     {
         rb.MovePosition((Vector2)transform.position + (direction * movespeed * Time.deltaTime));
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<Player>().RecountHp(-1);
+            Destroy(gameObject);
+        }
+    }
 }
