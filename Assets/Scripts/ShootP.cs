@@ -6,6 +6,8 @@ public class ShootP : MonoBehaviour
 {
     public float speed = 40;
     private int timeToDestroy = 4;
+    public ParticleSystem DeathParticles;
+
     void Start()
     {
         
@@ -25,9 +27,14 @@ public class ShootP : MonoBehaviour
     {
         if(collision.gameObject.tag == "Enemy")
         {
+            StartCoroutine(Death());
             Destroy(collision.gameObject);
-            Destroy(gameObject);
         }
     }
-
+    IEnumerator Death()
+    {
+        DeathParticles.Play();
+        yield return new WaitForSeconds(0.3f);
+        Destroy(gameObject);
+    }
 }

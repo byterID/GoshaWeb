@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     public float fillHp;
     public bool isHit = false;
 
-    private float XSkillKD = 5;
+    [SerializeField] private float XSkillKD = 5;
     [SerializeField] private float XSkillCurTime;
     public Image SkillKDImage;
     public float fillKD;
@@ -36,6 +36,10 @@ public class Player : MonoBehaviour
 
     public GameObject bloodPanel;
     public Sprite[] bloodScreen;
+
+    public float KDDashTime = 0.0001f;
+
+    public bool isRight;
 
     void Start()
     {
@@ -86,9 +90,15 @@ public class Player : MonoBehaviour
     void Flip()
     {
         if (Input.GetAxis("Horizontal") > 0)
+        {
             transform.localRotation = Quaternion.Euler(0, 0, 0);
+            isRight = true;
+        }
         if (Input.GetAxis("Horizontal") < 0)
+        {
+            isRight = false;
             transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
     }
 
     public void CheckMove()
@@ -153,8 +163,8 @@ public class Player : MonoBehaviour
     }
     public void Skill3()
     {
-        XSkillCurTime += Time.deltaTime + 0.4f;
-        fillKD = XSkillCurTime / 100;
+        XSkillCurTime += Time.deltaTime + 0.0001f;
+        fillKD = XSkillCurTime / 5;
         SkillKDImage.fillAmount = fillKD;
         if (Input.GetKeyDown(KeyCode.D))//dddddddddddddddddddddddd
         {
