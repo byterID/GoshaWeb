@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameControl : MonoBehaviour
 {
@@ -16,11 +17,13 @@ public class GameControl : MonoBehaviour
     private int RandomSpawnCordY;
     public Image[] hearts;
     public Sprite isLife, nonLife;
-
+    public GameObject deadPanel;
+    Animator anim;
     //Bools
     public bool isGame;
     void Start()
     {
+        anim = deadPanel.GetComponent<Animator>();
         RandomSpawn = Random.Range(5, 10);
         isGame = true;
     }
@@ -56,5 +59,10 @@ public class GameControl : MonoBehaviour
         {
             Timer += Time.deltaTime;
         }
+    }
+    public void ShowDeadCanvas()
+    {
+        deadPanel.SetActive(true);
+        anim.Play("DeadAnim");
     }
 }

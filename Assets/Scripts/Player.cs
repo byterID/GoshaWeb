@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -16,11 +17,25 @@ public class Player : MonoBehaviour
     public float fillHp;
     public bool isHit = false;
 
+    private float XSkillKD = 5;
+    [SerializeField] private float XSkillCurTime;
+    public Image SkillKDImage;
+    public float fillKD;
+
+    Rigidbody2D rb;
     RaycastHit2D hit;
 
     public bool isMove;
 
     Animator anim;
+    public bool isDash = false;
+    public float dashDistance = 10f;
+    KeyCode lastKeyCode;
+    float doubleTapTime;
+    float mx;
+
+    public GameObject bloodPanel;
+    public Sprite[] bloodScreen;
 
     void Start()
     {
@@ -28,6 +43,7 @@ public class Player : MonoBehaviour
         GameControl = GameObject.Find("GameControl");
         gameControl = GameControl.GetComponent<GameControl>();
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -39,6 +55,20 @@ public class Player : MonoBehaviour
         Move();
         MouseMove();
         Flip();
+        Skill3();
+        if(curHp <40)
+        {
+            bloodPanel.GetComponent<Image>().sprite = bloodScreen[0];
+        }
+        if (curHp < 20)
+        {
+            bloodPanel.GetComponent<Image>().sprite = bloodScreen[1];
+        }
+        if (curHp < 10)
+        {
+            bloodPanel.GetComponent<Image>().sprite = bloodScreen[2];
+        }
+        EndGame();
     }
     public void RecountHp()
     {
@@ -52,26 +82,6 @@ public class Player : MonoBehaviour
         }
 
     }
-    /*public void RecountHp(int deltaHp)
-    {
-        curHp = curHp + deltaHp;
-        if (deltaHp < 0)
-        {
-            curHp = curHp + deltaHp;
-            StopCoroutine(OnHit());
-            isHit = true;
-            StartCoroutine(OnHit());
-        }
-        else if (curHp > maxHp)
-        {
-            curHp = curHp + deltaHp;
-            curHp = maxHp;
-        }
-        if (curHp <= 0)
-        {
-            Debug.Log("Помер");
-        }
-    }*/
 
     void Flip()
     {
@@ -103,11 +113,17 @@ public class Player : MonoBehaviour
         transform.localPosition += new Vector3(translationX, translationY, 0);
         if(isMove)
         {
-            anim.SetInteger("State", 2);
+            if(!isDash)
+            {
+                anim.SetInteger("State", 2);
+            }
         }
         else
         {
-            anim.SetInteger("State", 1);
+            if(!isDash)
+            {
+                anim.SetInteger("State", 1);
+            }
         }
     }
     public void MouseMove()
@@ -132,13 +148,120 @@ public class Player : MonoBehaviour
         if (Input.GetButton("X"))
         {
             //sdasd
+
         }
     }
     public void Skill3()
     {
-        if (Input.GetButton("C"))
+        XSkillCurTime += Time.deltaTime + 0.4f;
+        fillKD = XSkillCurTime / 100;
+        SkillKDImage.fillAmount = fillKD;
+        if (Input.GetKeyDown(KeyCode.D))//dddddddddddddddddddddddd
         {
-            //sdasd
+            if (XSkillCurTime >= XSkillKD)
+            {
+                if (doubleTapTime > Time.time && lastKeyCode == KeyCode.D)
+                {
+                    XSkillCurTime = 0;
+                    StartCoroutine(DashX(1f));
+                    Debug.Log("sad");
+                }
+                else
+                {
+                    doubleTapTime = Time.time + 0.5f;
+                }
+                lastKeyCode = KeyCode.D;
+            }
         }
+        if (Input.GetKeyDown(KeyCode.W))//////////////////wwwwwwwwww
+        {
+            if (XSkillCurTime >= XSkillKD)
+            {
+                if (doubleTapTime > Time.time && lastKeyCode == KeyCode.W)
+                {
+                    XSkillCurTime = 0;
+                    StartCoroutine(DashY(1f));
+                    Debug.Log("sad");
+                }
+                else
+                {
+                    doubleTapTime = Time.time + 0.5f;
+                }
+                lastKeyCode = KeyCode.W;
+            }
+
+        }
+        if (Input.GetKeyDown(KeyCode.S))//ssssssssssssssss
+        {
+            if (XSkillCurTime >= XSkillKD)
+            {
+                if (doubleTapTime > Time.time && lastKeyCode == KeyCode.S)
+                {
+                    XSkillCurTime = 0;
+                    StartCoroutine(DashY(-1f));
+                    Debug.Log("sad");
+                }
+                else
+                {
+                    doubleTapTime = Time.time + 0.5f;
+                }
+                lastKeyCode = KeyCode.S;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.A))//////////Aaa
+        {
+            if (XSkillCurTime >= XSkillKD)
+            {
+                if (doubleTapTime > Time.time && lastKeyCode == KeyCode.A)
+                {
+                    XSkillCurTime = 0;
+                    StartCoroutine(DashX(-1f));
+                    Debug.Log("saasdd");
+                }
+                else
+                {
+                    doubleTapTime = Time.time + 0.5f;
+                }
+                lastKeyCode = KeyCode.A;
+            }
+        }
+    }
+    IEnumerator DashX(float direction)
+    {
+        isDash = true;
+        anim.SetInteger("State", 3);
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        rb.AddForce(new Vector2(dashDistance * direction, 0f), ForceMode2D.Impulse);
+        yield return new WaitForSeconds(1);
+        isDash = false;
+    }
+    IEnumerator DashY(float direction)
+    {
+        isDash = true;
+        anim.SetInteger("State", 3);
+        rb.velocity = new Vector2(0f, rb.velocity.y);
+        rb.AddForce(new Vector2(0f, dashDistance * direction), ForceMode2D.Impulse);
+        yield return new WaitForSeconds(1);
+        isDash = false;
+    }
+    private void FixedUpdate()
+    {
+        if(!isDash)
+        {
+            rb.velocity = new Vector2(mx * speed, rb.velocity.y);
+            rb.velocity = new Vector2(mx * speed, rb.velocity.x);
+        }
+    }
+
+    public void EndGame()
+    {
+        if(curHp <= 0)
+        {
+            gameControl.ShowDeadCanvas();
+        }
+    }
+    public void Restart()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 }
