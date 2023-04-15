@@ -49,5 +49,9 @@ public class Enemy : MonoBehaviour
             playerScript.curHp -= 10;
             Destroy(gameObject);
         }
+        if(collision.gameObject.tag == "Katana")
+        {
+            Destroy(gameObject);
+        }
     }
 }

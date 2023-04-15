@@ -11,11 +11,13 @@ public class Sword : MonoBehaviour
     public GameObject Player;
     Player player;
     public bool isActive;
+    Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
         player = Player.GetComponent<Player>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -23,6 +25,10 @@ public class Sword : MonoBehaviour
     {
         Turn();
         Slash();
+        if(isActive)
+           GetComponent<BoxCollider2D>().enabled = true;
+        else
+            GetComponent<BoxCollider2D>().enabled = false;
     }
     public void Turn()
     {
@@ -39,33 +45,54 @@ public class Sword : MonoBehaviour
     }
     public void Slash()
     {
-        if(Input.GetKey(KeyCode.X))
+        if(Input.GetKeyDown(KeyCode.X) && !isActive)
         {
+            transform.parent = player.transform;
             if (player.isRight)
             {
-                transform.position = Vector3.MoveTowards(transform.position, activeSwordTransform.position, speed * Time.deltaTime);
-                transform.localRotation = Quaternion.Euler(-180, 0, 0);
-                if (Input.GetMouseButton(0))
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, slashSwordTransform.position, speed * Time.deltaTime);
-                    //Quaternion neededRotation = Quaternion.LookRotation(slashSwordTransform.position - transform.position);
-                    //transform.rotation = Quaternion.Slerp(transform.rotation, slashSwordTransform.rotation, Time.deltaTime);
-                    //transform.localPosition = Vector3.MoveTowards(transform.position, slashSwordTransform.position, speed * Time.deltaTime);
-                    //transform.localRotation = Quaternion.Euler(-180, 0, 155);
-                    //transform.localRotation = Quaternion.RotateTowards(transform.rotation, slashSwordTransform.rotation, 50f);
-                }
+                anim.SetInteger("State", 2);
+                isActive = true;
             }
             if (!player.isRight)
             {
-                transform.position = Vector3.MoveTowards(transform.position, activeSwordTransform.position, speed * Time.deltaTime);
-                transform.localRotation = Quaternion.Euler(-180, 180, 0);
-                if (Input.GetMouseButton(0))
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, slashSwordTransform.position, speed * Time.deltaTime);
-                    transform.localRotation = Quaternion.Euler(-180, 0, -35);
-                }
+                anim.SetInteger("State", 2);
+                isActive = true;
             }
-
+        }
+        if (Input.GetMouseButton(1) && isActive)
+        {
+            StartCoroutine(SlashSword());
+            anim.SetInteger("State", 4);
+        }
+        if (Input.GetMouseButton(1) && isActive)
+        {
+            Debug.Log("sasd");
+            anim.SetInteger("State", 4);
+            StartCoroutine(SlashSword());
+        }
+        if(Input.GetKeyUp(KeyCode.X) && isActive)
+        {
+            StartCoroutine(DeactivateSword());
+        }
+    }
+    IEnumerator DeactivateSword()
+    {
+        anim.SetInteger("State", 3);
+        yield return new WaitForSeconds(0.2f);
+        anim.SetInteger("State", 0);
+        isActive = false;
+    }
+    IEnumerator SlashSword()
+    {
+        yield return new WaitForSeconds(1);
+        anim.SetInteger("State", 0);
+        isActive = false;
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Emeny")
+        {
+            Destroy(collision.gameObject);
         }
     }
 }
