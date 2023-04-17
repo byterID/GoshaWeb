@@ -7,10 +7,13 @@ public class ShootP : MonoBehaviour
     public float speed = 40;
     private int timeToDestroy = 4;
     public ParticleSystem DeathParticles;
+    GameControl control;
+    public GameObject gameControl;
 
     void Start()
     {
-        
+        gameControl = GameObject.Find("GameControl");
+        control = gameControl.GetComponent<GameControl>();
     }
 
     void Update()
@@ -29,6 +32,7 @@ public class ShootP : MonoBehaviour
         {
             StartCoroutine(Death());
             Destroy(collision.gameObject);
+            control.Score++;
         }
     }
     IEnumerator Death()

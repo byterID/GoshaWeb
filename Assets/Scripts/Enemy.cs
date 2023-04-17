@@ -10,8 +10,13 @@ public class Enemy : MonoBehaviour
     public float movespeed = 5f;
     private Rigidbody2D rb;
     private Vector2 movement;
+
+    GameControl control;
+    public GameObject gameControl;
     void Start()
     {
+        gameControl = GameObject.Find("GameControl");
+        control = gameControl.GetComponent<GameControl>();
         Player = GameObject.Find("Player");
         player = Player.GetComponent<Transform>();
         playerScript = Player.GetComponent<Player>();
@@ -52,6 +57,7 @@ public class Enemy : MonoBehaviour
         if(collision.gameObject.tag == "Katana")
         {
             Destroy(gameObject);
+            control.Score++;
         }
     }
 }

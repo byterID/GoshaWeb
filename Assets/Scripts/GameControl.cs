@@ -19,6 +19,9 @@ public class GameControl : MonoBehaviour
     public Sprite isLife, nonLife;
     public GameObject deadPanel;
     Animator anim;
+
+    public int Score;
+    public Text ScoreText;
     //Bools
     public bool isGame;
     void Start()
@@ -31,6 +34,7 @@ public class GameControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ScoreText.text = Score.ToString();
         TimerCount();
         currentTime += Time.deltaTime;
         StartCoroutine(SpawnRand());
