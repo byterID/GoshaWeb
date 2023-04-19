@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -9,18 +10,25 @@ public class Enemy : MonoBehaviour
     public Transform player;
     public float movespeed = 5f;
     private Rigidbody2D rb;
-    private Vector2 movement;
+    public Vector2 movement;
+    public GameObject enem_sprite;
+    public Sprite en1;
+    public Sprite en2;
+    public SpriteRenderer curSprite;
+
 
     GameControl control;
     public GameObject gameControl;
     void Start()
     {
+        curSprite = enem_sprite.GetComponent<SpriteRenderer>();
         gameControl = GameObject.Find("GameControl");
         control = gameControl.GetComponent<GameControl>();
         Player = GameObject.Find("Player");
         player = Player.GetComponent<Transform>();
         playerScript = Player.GetComponent<Player>();
         rb = this.GetComponent<Rigidbody2D>();
+
     }
 
     void Update()
@@ -30,7 +38,16 @@ public class Enemy : MonoBehaviour
         rb.rotation = angle;
         direction.Normalize();
         movement = direction;
-        Flip();
+        if (movement.x > 0)
+        {
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            curSprite.sprite = en1;
+        }
+        if (movement.x < 0)
+        {
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            curSprite.sprite = en2;
+        }
     }
     private void FixedUpdate()
     {
@@ -40,12 +57,9 @@ public class Enemy : MonoBehaviour
     {
         rb.MovePosition((Vector2)transform.position + (direction * movespeed * Time.deltaTime));
     }
-    void Flip()//--------
+    private void LateUpdate()
     {
-        if (transform.rotation.z <= 90 || transform.rotation.z >= -90)
-            transform.Rotate(0, 0, 0);
-        if (transform.rotation.z <= -90 || transform.rotation.z >= 90)
-            transform.Rotate(0, 180, 0);
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

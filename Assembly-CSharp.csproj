@@ -61,6 +61,7 @@
     <Compile Include="Assets\KrishnaPalacio\MINIFANTASY - Forgotten Plains\Scripts\PropVariants\FP_Creeper.cs" />
     <Compile Include="Assets\KrishnaPalacio\MINIFANTASY - Forgotten Plains\Scripts\PropVariants\FP_Tree.cs" />
     <Compile Include="Assets\Scripts\TreeAnimate.cs" />
+    <Compile Include="Assets\Scripts\WalkingEnemy.cs" />
     <Compile Include="Assets\Scripts\Obelisk.cs" />
     <Compile Include="Assets\Scripts\GameControl.cs" />
     <Compile Include="Assets\KrishnaPalacio\MINIFANTASY - Forgotten Plains\Scripts\PropVariants\FP_Flower.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Assets\Scripts\SpawnEnemies\SpawnEnemies1.cs" />
     <Compile Include="Assets\Scripts\ShootP.cs" />
     <Compile Include="Assets\Scripts\LostTrigger.cs" />
+    <Compile Include="Assets\Scripts\SpawnEnemy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
