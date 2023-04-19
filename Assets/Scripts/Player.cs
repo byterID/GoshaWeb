@@ -41,8 +41,13 @@ public class Player : MonoBehaviour
 
     public bool isRight;
 
+    public GameObject Sword;
+    public GameObject Obel;
+    public GameObject light_Obel;
+
     void Start()
     {
+        
         curHp = maxHp;
         GameControl = GameObject.Find("GameControl");
         gameControl = GameControl.GetComponent<GameControl>();
@@ -73,6 +78,7 @@ public class Player : MonoBehaviour
             bloodPanel.GetComponent<Image>().sprite = bloodScreen[2];
         }
         EndGame();
+        SwitchWeapons();
     }
     public void RecountHp()
     {
@@ -273,5 +279,24 @@ public class Player : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene("SampleScene");
+    }
+    public void SwitchWeapons()
+    {
+        if(Input.GetKey(KeyCode.Q))
+        {
+            Sword.GetComponent<BoxCollider2D>().enabled = false;
+            Sword.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            Obel.GetComponent<BoxCollider2D>().enabled = true;
+            Obel.GetComponentInChildren<SpriteRenderer>().enabled = true;
+            light_Obel.SetActive(true);
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            Sword.GetComponent<BoxCollider2D>().enabled = true;
+            Sword.GetComponentInChildren<SpriteRenderer>().enabled = true;
+            Obel.GetComponent<BoxCollider2D>().enabled = false;
+            Obel.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            light_Obel.SetActive(false);
+        }
     }
 }

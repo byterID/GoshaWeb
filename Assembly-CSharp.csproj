@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scripts\ShootP.cs" />
     <Compile Include="Assets\Scripts\LostTrigger.cs" />
     <Compile Include="Assets\Scripts\SpawnEnemy.cs" />
+    <Compile Include="Assets\Scripts\SignTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
