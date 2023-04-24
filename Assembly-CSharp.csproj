@@ -68,6 +68,7 @@
     <Compile Include="Assets\KrishnaPalacio\MINIFANTASY - Forgotten Plains\Scripts\PropVariants\FP_Flower.cs" />
     <Compile Include="Assets\KrishnaPalacio\MINIFANTASY - Forgotten Plains\Scripts\PropVariants\FP_Cattail.cs" />
     <Compile Include="Assets\KrishnaPalacio\MINIFANTASY - Forgotten Plains\Scripts\PropVariants\FP_GrassLong.cs" />
+    <Compile Include="Assets\Scripts\Borders.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
@@ -78,7 +79,9 @@
     <Compile Include="Assets\Scripts\LostTrigger.cs" />
     <Compile Include="Assets\Scripts\SpawnEnemy.cs" />
     <Compile Include="Assets\Scripts\MainMenu.cs" />
-    <Compile Include="Assets\Scripts\Borders.cs" />
+    <Compile Include="Assets\Scripts\DeadBorder.cs" />
+    <Compile Include="Assets\Scripts\InteractPilar.cs" />
+    <Compile Include="Assets\Scripts\Puzzle.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
