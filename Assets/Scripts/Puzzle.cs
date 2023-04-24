@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class Puzzle : MonoBehaviour
 {
@@ -120,5 +122,12 @@ public class Puzzle : MonoBehaviour
         isSix = false;
         isSeven = false;
         isEight = false;
+    }
+    public void CheckDone()
+    {
+        if(isOne && isTwo && isThree && isFour && isFive && isSix && isSeven && isEight)
+        {
+            SceneManager.LoadScene("asdas");//asdlaskdlaskdsk
+        }
     }
 }
