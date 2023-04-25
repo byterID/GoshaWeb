@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Puzzle : MonoBehaviour
 {
+    Color colorG = Color.green;
+    Color def = Color.gray;
+
+    public Image[] indicators;
     public bool isOne = false;
     public bool isTwo = false;
     public bool isThree = false;
@@ -21,7 +25,9 @@ public class Puzzle : MonoBehaviour
 
     void Update()
     {
-        
+        CheckDone();
+        CheckLights();
+        CheckLightsDef();
     }
     public void One()
     {
@@ -129,5 +135,43 @@ public class Puzzle : MonoBehaviour
         {
             SceneManager.LoadScene("asdas");//asdlaskdlaskdsk
         }
+    }
+    public void CheckLights()
+    {
+        if (isOne)
+            indicators[0].color = colorG;
+        if (isTwo)
+            indicators[1].color = colorG;
+        if (isThree)
+            indicators[2].color = colorG;
+        if (isFour)
+            indicators[3].color = colorG;
+        if (isFive)
+            indicators[4].color = colorG;
+        if (isSix)
+            indicators[5].color = colorG;
+        if (isSeven)
+            indicators[6].color = colorG;
+        if (isEight)
+            indicators[7].color = colorG;
+    }
+    public void CheckLightsDef()
+    {
+        if (!isOne)
+            indicators[0].color = def;
+        if (!isTwo)
+            indicators[1].color = def;
+        if (!isThree)
+            indicators[2].color = def;
+        if (!isFour)
+            indicators[3].color = def;
+        if (!isFive)
+            indicators[4].color = def;
+        if (!isSix)
+            indicators[5].color = def;
+        if (!isSeven)
+            indicators[6].color = def;
+        if (!isEight)
+            indicators[7].color = def;
     }
 }
