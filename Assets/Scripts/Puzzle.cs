@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor.Experimental.GraphView;
 
 public class Puzzle : MonoBehaviour
 {
+    Animator animPortal;
+    public GameObject Portal;
     Color colorG = Color.green;
     Color def = Color.gray;
 
@@ -18,9 +21,12 @@ public class Puzzle : MonoBehaviour
     public bool isSix = false;
     public bool isSeven = false;
     public bool isEight = false;
+
+    public bool isActive;
+    public ParticleSystem activateParticle;
     void Start()
     {
-        
+        animPortal = Portal.GetComponent<Animator>();
     }
 
     void Update()
@@ -111,6 +117,8 @@ public class Puzzle : MonoBehaviour
     {
         if (isOne && isTwo && isThree && isFour && isFive && isSix && isSeven)
         {
+            Portal.SetActive(true);
+            StartCoroutine(ActivateParticleTime());
             isEight = true;
         }
         else
@@ -133,8 +141,35 @@ public class Puzzle : MonoBehaviour
     {
         if(isOne && isTwo && isThree && isFour && isFive && isSix && isSeven && isEight)
         {
-            SceneManager.LoadScene("asdas");//asdlaskdlaskdsk
+            
+            if(isActive)
+            {
+                StartCoroutine(ActivatePortal());
+                activateParticle.Play();
+            }
         }
+        else
+        {
+            StartCoroutine(DeactivatePortal());
+        }
+    }
+    public IEnumerator ActivatePortal()
+    {
+        animPortal.SetInteger("State", 2);
+        yield return new WaitForSeconds(0.3f);
+        animPortal.SetInteger("State", 1);
+    }
+    public IEnumerator ActivateParticleTime()
+    {
+        isActive = true;
+        yield return new WaitForSeconds(0.3f);
+        isActive = false;
+    }
+    public IEnumerator DeactivatePortal()
+    {
+        animPortal.SetInteger("State", 3);
+        yield return new WaitForSeconds(0.3f);
+        Portal.SetActive(false);
     }
     public void CheckLights()
     {
