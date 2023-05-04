@@ -155,6 +155,7 @@ public class Puzzle : MonoBehaviour
     }
     public IEnumerator ActivatePortal()
     {
+        Portal.SetActive(true);
         animPortal.SetInteger("State", 2);
         yield return new WaitForSeconds(0.3f);
         animPortal.SetInteger("State", 1);
